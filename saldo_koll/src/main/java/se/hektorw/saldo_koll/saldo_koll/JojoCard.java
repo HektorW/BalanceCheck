@@ -57,7 +57,7 @@ public class JojoCard implements Parcelable{
     }
 
     public String toWriteableString() {
-        return "[" + ID[0] + BYTE_SPLIT_CHAR + ID[1] + BYTE_SPLIT_CHAR + ID[2] + BYTE_SPLIT_CHAR + ID[3] +"]" + PARTS_SPLIT_CHAR + this.CardNumber + PARTS_SPLIT_CHAR + this.CVC;
+        return ID[0] + BYTE_SPLIT_CHAR + ID[1] + BYTE_SPLIT_CHAR + ID[2] + BYTE_SPLIT_CHAR + ID[3] + PARTS_SPLIT_CHAR + this.CardNumber + PARTS_SPLIT_CHAR + this.CVC;
     }
 
     /**

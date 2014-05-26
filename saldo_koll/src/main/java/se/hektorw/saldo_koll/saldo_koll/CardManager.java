@@ -1,6 +1,5 @@
 package se.hektorw.saldo_koll.saldo_koll;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -9,13 +8,15 @@ import android.content.SharedPreferences;
  */
 public class CardManager {
 
-    private final static String KEY_CARDS = "key_cards";
-    private final static String SPLIT_CHAR = "|";
+    private final static String PREFERENCE_FILE_KEY = "preference_cards";
 
-    public static boolean writeCard(Activity context, JojoCard card) {
+    private final static String KEY_CARDS = "key_cards";
+    private final static String SPLIT_CHAR = "@";
+
+    public static boolean writeCard(Context context, JojoCard card) {
         String cardStr = card.toWriteableString();
 
-        SharedPreferences sp = context.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
 
         String currentCards = sp.getString(KEY_CARDS, "");
 
@@ -27,14 +28,14 @@ public class CardManager {
         return true;
     }
 
-    public static JojoCard[] readCards(Activity context) {
-        SharedPreferences sp = context.getPreferences(Context.MODE_PRIVATE);
+    public static JojoCard[] readCards(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
         String allCards = sp.getString(KEY_CARDS, "");
 
         if (allCards.length() == 0)
             return null;
 
-        String[] split = allCards.split(SPLIT_CHAR);
+        String[] split = allCards.indexOf(SPLIT_CHAR) == -1 ? new String[]{ allCards } : allCards.split(SPLIT_CHAR);
 
         JojoCard[] cards = new JojoCard[split.length];
         for (int i = 0; i < split.length; ++i) {
@@ -42,5 +43,12 @@ public class CardManager {
         }
 
         return cards;
+    }
+
+    public static void Clear(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(KEY_CARDS, "");
+        editor.commit();
     }
 }

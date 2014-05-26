@@ -1,13 +1,21 @@
 package se.hektorw.saldo_koll.saldo_koll;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Layout;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
@@ -23,6 +31,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +52,9 @@ public class CheckBalanceActivity extends Activity {
 
         JojoCard card = (JojoCard)extras.getParcelable(JojoCard.JOJO_CARD);
 
+
         if (card != null) {
+            ((ProgressBar)findViewById(R.id.check_balance_progress_loading)).setVisibility(View.VISIBLE);
             new FetchPage().execute(card);
         }
     }
@@ -52,37 +63,52 @@ public class CheckBalanceActivity extends Activity {
 
 
 
-
-
-
     /**
      * After page has been fetched
-     * @param responseBody
      */
-    private void handlePostResponse(String responseBody) {
+    private void handlePostResponse(Element wrapper) {
         Log.d(TAG, "handlePostResponse");
 
-        Spanned result = Html.fromHtml(responseBody);
+        Elements labels = wrapper.getElementsByClass("first");
+        Elements values = wrapper.getElementsByClass("right");
 
-        Document dom = Jsoup.parse(responseBody);
+        LinearLayout parent = new LinearLayout(this);
+        parent.setOrientation(LinearLayout.VERTICAL);
+        for (int i = 0; i < values.size(); i++) {
+            String label = getInnermostChild(labels.get(i)).html();
+            String value = getInnermostChild(values.get(i)).html();
 
-        Elements elems = dom.getElementsByClass("saldo_ok_wrapper");
-        Element wrapper = elems.get(0);
+            addBalanceValueToView(parent, label, value);
+        }
 
-        Elements prices = wrapper.getElementsByClass("right");
+        RelativeLayout container = (RelativeLayout)findViewById(R.id.check_balance_container);
+        ((ProgressBar)findViewById(R.id.check_balance_progress_loading)).setVisibility(View.GONE);
+        container.addView(parent);
 
-        Element element_saldo = prices.get(0);
-        Element element_pending = prices.get(1);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)parent.getLayoutParams();
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        params.addRule(RelativeLayout.CENTER_VERTICAL);
+    }
 
-        String price_saldo = element_saldo.child(0).html();
-        String price_pending = element_pending.child(0).html();
+    private Element getInnermostChild(Element elem) {
+        while (elem.children().size() > 0) {
+            elem = elem.child(0);
+        }
+        return elem;
+    }
 
-        setContentView(R.layout.activity_check_balance);
-        TextView tv_saldo = (TextView)findViewById(R.id.saldo);
-        TextView tv_pending = (TextView)findViewById(R.id.pending);
+    private void addBalanceValueToView(LinearLayout parent, String label, String value) {
+        LinearLayout layout = (LinearLayout)LinearLayout.inflate(this, R.layout.check_balance_value_tpl_layout, null);
 
-        tv_saldo.setText(price_saldo);
-        tv_pending.setText(price_pending);
+        TextView tvLabel = (TextView)TextView.inflate(this, R.layout.check_balance_value_tpl_tv_label, null);
+        tvLabel.setText(Html.fromHtml(label).toString());
+        TextView tvValue = (TextView)TextView.inflate(this, R.layout.check_balance_value_tpl_tv_value, null);
+        tvValue.setText(value);
+
+        layout.addView(tvLabel);
+        layout.addView(tvValue);
+
+        parent.addView(layout);
     }
 
 
@@ -90,9 +116,9 @@ public class CheckBalanceActivity extends Activity {
     /**
      * Async task for fetching balance page
      */
-    private class FetchPage extends AsyncTask<JojoCard, Void, String> {
+    private class FetchPage extends AsyncTask<JojoCard, Void, Element> {
         @Override
-        protected String doInBackground(JojoCard... jojoCards) {
+        protected Element doInBackground(JojoCard... jojoCards) {
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost("http://www.shop.skanetrafiken.se/kollasaldo.html");
 
@@ -109,7 +135,11 @@ public class CheckBalanceActivity extends Activity {
                 HttpResponse response = httpClient.execute(httpPost);
                 String responseBody = EntityUtils.toString(response.getEntity());
 
-                return responseBody;
+                Document dom = Jsoup.parse(responseBody);
+                Elements elems = dom.getElementsByClass("saldo_ok_wrapper");
+                Element wrapper = elems.get(0);
+
+                return wrapper;
             } catch (ClientProtocolException e) {
                 Log.d(TAG, e.toString());
             } catch (IOException e) {
@@ -120,12 +150,12 @@ public class CheckBalanceActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(String responseBody) {
-            if (responseBody == null) {
+        protected void onPostExecute(Element element) {
+            if (element == null) {
                 Log.d(TAG, "error when fetching saldo");
             }
 
-            handlePostResponse(responseBody);
+            handlePostResponse(element);
         }
     }
 

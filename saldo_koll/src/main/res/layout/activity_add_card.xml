@@ -41,8 +41,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="phone"
                 android:ems="10"
+                android:hint="1234567890"
                 android:id="@+id/input_card_nr"
                 android:layout_weight="0.40" />
         </LinearLayout>
@@ -64,8 +65,33 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="AB12"
                 android:id="@+id/input_cvc"
                 android:layout_weight="0.40" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Name"
+                android:layout_weight="0.6"
+                android:gravity="right"
+                android:id="@+id/textView2" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="Card name"
+                android:ems="10"
+                android:layout_weight="0.40"
+                android:id="@+id/input_name" />
         </LinearLayout>
     </LinearLayout>
 
