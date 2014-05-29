@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/blumma"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/nfc_vit"
+                android:scaleType="fitXY"
+                android:maxHeight="20dp"
+                android:maxWidth="20dp"
+                android:layout_marginTop="200dp"
+                android:layout_marginLeft="70dp"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  jojo"
+                android:id="@+id/tv_jojo"
+                android:textSize="100dp"
+                android:focusableInTouchMode="true"
+                android:textIsSelectable="false"
+                android:textColor="#fffcfff5"
+                android:layout_marginTop="200dp"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignTop="@id/tv_jojo"
+                android:layout_marginTop="310dp">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="100dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/imageView3"
+                    android:src="@drawable/up_arrow_icon_white"
+                    android:alpha=".7" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hektors kort"
+                    android:id="@+id/textView2"
+                    android:textColor="@android:color/white"
+                    android:textSize="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:singleLine="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mickis kort"
+                    android:id="@+id/textView3"
+                    android:textColor="@android:color/white"
+                    android:textSize="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gemensamt"
+                    android:id="@+id/textView4"
+                    android:textColor="@android:color/white"
+                    android:textSize="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Periodskort"
+                    android:id="@+id/textView5"
+                    android:textColor="@android:color/white"
+                    android:textSize="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="150dp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

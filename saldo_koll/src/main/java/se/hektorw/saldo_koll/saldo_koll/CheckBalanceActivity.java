@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -46,6 +47,10 @@ public class CheckBalanceActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().getAttributes().windowAnimations = R.style.Fade;
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_check_balance);
 
         Bundle extras = getIntent().getExtras();
@@ -60,9 +65,6 @@ public class CheckBalanceActivity extends Activity {
     }
 
 
-
-
-
     /**
      * After page has been fetched
      */
@@ -72,7 +74,14 @@ public class CheckBalanceActivity extends Activity {
         Elements labels = wrapper.getElementsByClass("first");
         Elements values = wrapper.getElementsByClass("right");
 
-        LinearLayout parent = new LinearLayout(this);
+        Element totalElement = values.get(values.size() - 1);
+        Element pendingElement = values.get(values.size() - 2);
+
+        setContentView(R.layout.saldo_layout);
+        ((TextView)findViewById(R.id.saldo_layout_tv_total)).setText(getInnermostChild(totalElement).html());
+        ((TextView)findViewById(R.id.saldo_layout_tv_pending)).setText(getInnermostChild(pendingElement).html());
+
+       /* LinearLayout parent = new LinearLayout(this);
         parent.setOrientation(LinearLayout.VERTICAL);
         for (int i = 0; i < values.size(); i++) {
             String label = getInnermostChild(labels.get(i)).html();
@@ -87,7 +96,7 @@ public class CheckBalanceActivity extends Activity {
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)parent.getLayoutParams();
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        params.addRule(RelativeLayout.CENTER_VERTICAL);
+        params.addRule(RelativeLayout.CENTER_VERTICAL);*/
     }
 
     private Element getInnermostChild(Element elem) {

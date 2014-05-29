@@ -1,37 +1,17 @@
 package se.hektorw.saldo_koll.saldo_koll;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-
 
 
 public class MainActivity extends ActionBarActivity {
@@ -46,11 +26,21 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        getWindow().getAttributes().windowAnimations = R.style.Fade;
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        setContentView(R.layout.start_layout);
 
         Log.d(TAG, "onCreate");
 
-        mTextView = (TextView)findViewById(R.id.textView_explanation);
+//        mTextView = (TextView)findViewById(R.id.textView_explanation);
+
+        TextView tv = (TextView)findViewById(R.id.tv_jojo);
+        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/coolvetica.ttf");
+        tv.setTypeface(tf);
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
@@ -63,7 +53,6 @@ public class MainActivity extends ActionBarActivity {
         if (!mNfcAdapter.isEnabled()) {
             mTextView.setText("NFC is disabled fool");
         }
-
         mCards = CardManager.readCards(this);
 
         handleIntent(getIntent());

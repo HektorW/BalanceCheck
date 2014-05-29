@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/tree_cell"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Cool-card"
+        android:id="@+id/textView2"
+        android:textSize="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1000,00 kr"
+        android:id="@+id/saldo_layout_tv_total"
+        android:textSize="72dp"
+        android:textIsSelectable="true"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="85dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Saldo"
+        android:id="@+id/textView6"
+        android:textColor="@android:color/white"
+        android:layout_above="@+id/saldo_layout_tv_total"
+        android:layout_alignStart="@+id/saldo_layout_tv_total" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Att hämta:"
+        android:id="@+id/textView5"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="-20dp"
+        android:layout_alignBottom="@+id/saldo_layout_tv_total"
+        android:layout_alignStart="@+id/saldo_layout_tv_total" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="+ 100,00 kr"
+        android:id="@+id/saldo_layout_tv_pending"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="100dp"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_alignStart="@id/textView5"/>
+
+</RelativeLayout>
